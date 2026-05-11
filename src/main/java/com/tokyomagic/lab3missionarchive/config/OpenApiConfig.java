@@ -11,8 +11,8 @@ public class OpenApiConfig {
     public OpenAPI customOpenAPI() {
         return new OpenAPI()
                 .info(new Info()
-                        .title("Архив миссий Токийского магического колледжа")
+                        .title("Tokyo Magic College Mission Archive")
                         .version("1.0.0")
-                        .description("API для управления архивом миссий, загрузки файлов и генерации отчётов"));
+                        .description("API for mission archive management, file uploads and report generation"));
     }
 }

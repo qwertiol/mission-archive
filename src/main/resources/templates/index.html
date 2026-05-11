@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Архив миссий Токийского магического колледжа</title>
+    <title>Tokyo Magic College Mission Archive</title>
     <style>
         * {
             margin: 0;
@@ -132,39 +132,39 @@
 </head>
 <body>
 <div class="container">
-    <h1>📜 Архив миссий Токийского магического колледжа</h1>
+    <h1>Tokyo Magic College Mission Archive</h1>
 
     <div class="card">
-        <h2>⬆️ Загрузить новую миссию</h2>
+        <h2>Upload new mission</h2>
         <div class="upload-form">
             <input type="file" id="missionFile" accept=".json,.yaml,.yml,.xml,.txt">
-            <button onclick="uploadMission()">Отправить в архив</button>
+            <button onclick="uploadMission()">Send to Archive</button>
         </div>
         <div id="uploadStatus" class="status-message"></div>
     </div>
 
     <div class="card">
-        <h2>📋 Архив миссий</h2>
+        <h2>Mission Archive</h2>
         <table id="missionsTable">
             <thead>
                 <tr>
                     <th>ID</th>
-                    <th>Дата</th>
-                    <th>Локация</th>
-                    <th>Исход</th>
-                    <th>Действия</th>
+                    <th>Date</th>
+                    <th>Location</th>
+                    <th>Outcome</th>
+                    <th>Actions</th>
                 </tr>
             </thead>
             <tbody>
-                <tr><td colspan="5" style="text-align:center">Загрузка...</td></tr>
+                <tr><td colspan="5" style="text-align:center">Loading...</td></tr>
             </tbody>
         </table>
     </div>
 
     <div class="card hidden" id="reportCard">
-        <h2>📄 <span id="reportTitle">Отчёт</span></h2>
+        <h2><span id="reportTitle">Report</span></h2>
         <div class="report-container" id="reportContent"></div>
-        <button class="btn-outline" onclick="closeReport()" style="margin-top:1rem">Закрыть отчёт</button>
+        <button class="btn-outline" onclick="closeReport()" style="margin-top:1rem">Close report</button>
     </div>
 </div>
 
@@ -181,14 +181,14 @@
         } catch (err) {
             console.error(err);
             document.querySelector('#missionsTable tbody').innerHTML =
-                '<tr><td colspan="5" style="color:red; text-align:center">Ошибка загрузки списка</td></tr>';
+                '<tr><td colspan="5" style="color:red; text-align:center">Error loading list</td></tr>';
         }
     }
 
     function renderMissionsTable(missions) {
         const tbody = document.querySelector('#missionsTable tbody');
         if (!missions || missions.length === 0) {
-            tbody.innerHTML = '<tr><td colspan="5" style="text-align:center">Архив пуст</td></tr>';
+            tbody.innerHTML = '<tr><td colspan="5" style="text-align:center">Archive is empty</td></tr>';
             return;
         }
         let html = '';
@@ -199,8 +199,8 @@
                 <td>${m.location || ''}</td>
                 <td>${m.outcome || ''}</td>
                 <td class="actions">
-                    <button class="btn-outline" onclick="loadReport(${m.id}, 'summary')">Краткий отчёт</button>
-                    <button class="btn-outline" onclick="loadReport(${m.id}, 'detailed')">Детальный отчёт</button>
+                    <button class="btn-outline" onclick="loadReport(${m.id}, 'summary')">Summary Report</button>
+                    <button class="btn-outline" onclick="loadReport(${m.id}, 'detailed')">Detailed Report</button>
                 </td>
             </tr>`;
         });
@@ -211,13 +211,13 @@
         const fileInput = document.getElementById('missionFile');
         const statusDiv = document.getElementById('uploadStatus');
         if (!fileInput.files.length) {
-            statusDiv.textContent = 'Выберите файл';
+            statusDiv.textContent = 'Select a file';
             return;
         }
         const formData = new FormData();
         formData.append('file', fileInput.files[0]);
 
-        statusDiv.textContent = 'Загрузка...';
+        statusDiv.textContent = 'Uploading...';
         try {
             const resp = await fetch(API_BASE + '/upload', {
                 method: 'POST',
@@ -225,14 +225,14 @@
             });
             if (!resp.ok) {
                 const err = await resp.json();
-                throw new Error(err.error || 'Ошибка загрузки');
+                throw new Error(err.error || 'Upload error');
             }
             const saved = await resp.json();
-            statusDiv.textContent = `Миссия '${saved.missionId}' успешно сохранена`;
+            statusDiv.textContent = `Mission '${saved.missionId}' saved successfully`;
             fileInput.value = '';
-            await fetchMissions();  // обновить таблицу
+            await fetchMissions();
         } catch (e) {
-            statusDiv.textContent = 'Ошибка: ' + e.message;
+            statusDiv.textContent = 'Error: ' + e.message;
         }
     }
 
@@ -243,7 +243,7 @@
 
         try {
             const resp = await fetch(endpoint);
-            if (!resp.ok) throw new Error('Ошибка получения отчёта');
+            if (!resp.ok) throw new Error('Failed to fetch report');
             const text = await resp.text();
             showReport(type, text);
         } catch (e) {
@@ -257,12 +257,8 @@
         const content = document.getElementById('reportContent');
 
         card.classList.remove('hidden');
-        title.textContent = type === 'summary' ? 'Краткий отчёт' : 'Детальный отчёт';
-        content.textContent = text;   // текст отображается как есть, с переносами строк
-    }
-
-    function closeReport() {
-        document.getElementById('reportCard').classList.add('hidden');
+        title.textContent = type === 'summary' ? 'Summary Report' : 'Detailed Report';
+        content.textContent = text;
     }
 
     function closeReport() {

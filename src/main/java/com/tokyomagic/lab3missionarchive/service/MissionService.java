@@ -12,6 +12,4 @@ public interface MissionService {
     List<MissionListItem> getAllMissions();
     MissionDetailDto getMissionById(Long id);
     MissionDetailDto updateMission(Long id, MissionUpdateRequest updateRequest);
-    String generateSummaryReport(Long missionId);
-    String generateDetailedReport(Long missionId);
 }

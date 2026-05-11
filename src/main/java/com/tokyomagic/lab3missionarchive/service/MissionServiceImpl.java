@@ -3,7 +3,6 @@ package com.tokyomagic.lab3missionarchive.service;
 import com.tokyomagic.lab3missionarchive.dto.*;
 import com.tokyomagic.lab3missionarchive.entity.*;
 import com.tokyomagic.lab3missionarchive.model.*;
-import com.tokyomagic.lab3missionarchive.model.enums.*;
 import com.tokyomagic.lab3missionarchive.parser.*;
 import com.tokyomagic.lab3missionarchive.repository.MissionRepository;
 import org.springframework.stereotype.Service;
@@ -42,7 +41,7 @@ public class MissionServiceImpl implements MissionService {
             tempFile = Files.createTempFile("mission_", "_" + multipartFile.getOriginalFilename());
             multipartFile.transferTo(tempFile.toFile());
         } catch (IOException e) {
-            throw new RuntimeException("Не удалось загрузить файл", e);
+            throw new RuntimeException("Failed to upload file", e);
         }
 
         File file = tempFile.toFile();
@@ -62,7 +61,7 @@ public class MissionServiceImpl implements MissionService {
             MissionEntity saved = missionRepository.save(missionEntity);
             return toDetailDto(saved);
         } catch (Exception e) {
-            throw new RuntimeException("Ошибка при обработке миссии: " + e.getMessage(), e);
+            throw new RuntimeException("Error processing mission: " + e.getMessage(), e);
         } finally {
             file.delete();
         }
@@ -78,7 +77,7 @@ public class MissionServiceImpl implements MissionService {
     @Override
     public MissionDetailDto getMissionById(Long id) {
         MissionEntity entity = missionRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Миссия с id " + id + " не найдена"));
+                .orElseThrow(() -> new RuntimeException("Mission with id " + id + " not found"));
         return toDetailDto(entity);
     }
 
@@ -86,7 +85,7 @@ public class MissionServiceImpl implements MissionService {
     @Transactional
     public MissionDetailDto updateMission(Long id, MissionUpdateRequest updateRequest) {
         MissionEntity mission = missionRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Миссия с id " + id + " не найдена"));
+                .orElseThrow(() -> new RuntimeException("Mission with id " + id + " not found"));
 
         if (updateRequest.getLocation() != null) mission.setLocation(updateRequest.getLocation());
         if (updateRequest.getOutcome() != null) mission.setOutcome(updateRequest.getOutcome());
@@ -95,110 +94,6 @@ public class MissionServiceImpl implements MissionService {
 
         MissionEntity updated = missionRepository.save(mission);
         return toDetailDto(updated);
-    }
-
-    @Override
-    public String generateSummaryReport(Long missionId) {
-        MissionEntity m = missionRepository.findById(missionId)
-                .orElseThrow(() -> new RuntimeException("Миссия с id " + missionId + " не найдена"));
-        StringBuilder sb = new StringBuilder();
-        sb.append("~~~ Краткий отчет о миссии ~~~\n");
-        sb.append("ID: ").append(m.getMissionId()).append("\n");
-        sb.append("Дата: ").append(m.getDate()).append("\n");
-        sb.append("Локация: ").append(m.getLocation()).append("\n");
-        sb.append("Исход: ").append(m.getOutcome()).append("\n");
-        if (m.getCurse() != null) {
-            sb.append("Проклятие: ").append(m.getCurse().getName())
-              .append(" (уровень ").append(m.getCurse().getThreatLevel()).append(")\n");
-        }
-        sb.append("Участников: ").append(m.getSorcerers().size()).append("\n");
-        sb.append("Техник применено: ").append(m.getTechniques().size()).append("\n");
-        if (m.getEconomicAssessment() != null) {
-            sb.append("Экономический ущерб: ").append(m.getEconomicAssessment().getTotalDamageCost()).append("\n");
-        }
-        return sb.toString();
-    }
-
-    @Override
-    public String generateDetailedReport(Long missionId) {
-        MissionEntity m = missionRepository.findById(missionId)
-                .orElseThrow(() -> new RuntimeException("Миссия с id " + missionId + " не найдена"));
-        StringBuilder sb = new StringBuilder();
-        sb.append("~~~ Детальный отчет о миссии ~~~\n");
-        sb.append("ID миссии: ").append(m.getMissionId()).append("\n");
-        sb.append("Дата: ").append(m.getDate()).append("\n");
-        sb.append("Место: ").append(m.getLocation()).append("\n");
-        sb.append("Исход: ").append(m.getOutcome()).append("\n");
-        sb.append("Ущерб: ").append(m.getDamageCost()).append("\n");
-
-        if (m.getCurse() != null) {
-            sb.append("Проклятие: ").append(m.getCurse().getName())
-              .append(" (уровень: ").append(m.getCurse().getThreatLevel()).append(")\n");
-        }
-
-        sb.append("Участники:\n");
-        for (SorcererEntity s : m.getSorcerers()) {
-            sb.append("  - ").append(s.getName())
-              .append(" (ранг: ").append(s.getRank()).append(")\n");
-        }
-
-        sb.append("Примененные техники:\n");
-        for (TechniqueEntity t : m.getTechniques()) {
-            sb.append("  - ").append(t.getName())
-              .append(" (тип: ").append(t.getType())
-              .append(", владелец: ").append(t.getOwner())
-              .append(", урон: ").append(t.getDamage()).append(")\n");
-        }
-
-        if (m.getEconomicAssessment() != null) {
-            EconomicAssessmentEntity ea = m.getEconomicAssessment();
-            sb.append("Экономическая оценка:\n");
-            sb.append("  Общий ущерб: ").append(ea.getTotalDamageCost()).append("\n");
-            sb.append("  Инфраструктура: ").append(ea.getInfrastructureDamage()).append("\n");
-            sb.append("  Коммерческий: ").append(ea.getCommercialDamage()).append("\n");
-            sb.append("  Транспорт: ").append(ea.getTransportDamage()).append("\n");
-            sb.append("  Дни восстановления: ").append(ea.getRecoveryEstimateDays()).append("\n");
-            sb.append("  Страховое покрытие: ").append(ea.getInsuranceCovered()).append("\n");
-        }
-
-        if (m.getEnemyActivity() != null) {
-            EnemyActivityEntity ea = m.getEnemyActivity();
-            sb.append("Активность врага:\n");
-            sb.append("  Тип поведения: ").append(ea.getBehaviorType()).append("\n");
-            sb.append("  Мобильность: ").append(ea.getMobility()).append("\n");
-            if (ea.getAttackPatterns() != null && !ea.getAttackPatterns().isEmpty()) {
-                sb.append("  Паттерны атак: ").append(String.join(", ", ea.getAttackPatterns())).append("\n");
-            }
-        }
-
-        if (m.getEnvironmentConditions() != null) {
-            EnvironmentConditionsEntity ec = m.getEnvironmentConditions();
-            sb.append("Условия среды: погода=").append(ec.getWeather())
-              .append(", видимость=").append(ec.getVisibility())
-              .append(", плотность энергии=").append(ec.getCursedEnergyDensity()).append("\n");
-        }
-
-        if (m.getCivilianImpact() != null) {
-            CivilianImpactEntity ci = m.getCivilianImpact();
-            sb.append("Влияние на гражданских: эвакуировано=").append(ci.getEvacuated())
-              .append(", пострадало=").append(ci.getInjured())
-              .append(", пропало=").append(ci.getMissing()).append("\n");
-        }
-
-        if (m.getTimelineEvents() != null && !m.getTimelineEvents().isEmpty()) {
-            sb.append("Хронология:\n");
-            for (TimelineEventEntity e : m.getTimelineEvents()) {
-                sb.append("  ").append(e.getTimestamp())
-                  .append(" - ").append(e.getType())
-                  .append(": ").append(e.getDescription()).append("\n");
-            }
-        }
-
-        if (m.getComment() != null) {
-            sb.append("Комментарий: ").append(m.getComment()).append("\n");
-        }
-
-        return sb.toString();
     }
 
     private MissionListItem toListItemDto(MissionEntity entity) {
