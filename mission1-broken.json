@@ -1,0 +1,9 @@
+{
+  "missionId": "M-BAD",
+  "date": "2026-09-01",
+  "location": "Osaka",
+  "outcome": "SUCCESS",
+  "curse": {
+    "name": "Broken",
+    threatLevel: "HIGH"
+}

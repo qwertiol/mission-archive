@@ -1,0 +1,11 @@
+{
+  "missionId": "M-BAD-OUTCOME",
+  "date": "2026-07-01",
+  "location": "Tokyo",
+  "outcome": "TOTAL_DEFEAT",
+  "damageCost": 10000,
+  "curse": {
+    "name": "Despair",
+    "threatLevel": "HIGH"
+  }
+}

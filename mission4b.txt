@@ -1,0 +1,24 @@
+missionId: M-2026-TXT2
+date: 2026-05-13
+location: Shibuya District
+outcome: SUCCESS
+damageCost: 1200000
+
+curse.name: Curse of the Underpass
+curse.threatLevel: HIGH
+
+sorcerer[0].name: Yuji Itadori
+sorcerer[0].rank: GRADE_1
+
+sorcerer[1].name: Megumi Fushiguro
+sorcerer[1].rank: GRADE_2
+
+technique[0].name: Black Flash
+technique[0].type: INNATE
+technique[0].owner: Yuji Itadori
+technique[0].damage: 500000
+
+technique[1].name: Ten Shadows Technique
+technique[1].type: SHIKIGAMI
+technique[1].owner: Megumi Fushiguro
+technique[1].damage: 700000

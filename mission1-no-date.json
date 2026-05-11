@@ -1,0 +1,10 @@
+{
+  "missionId": "M-NO-DATE",
+  "location": "Somewhere",
+  "outcome": "PARTIAL_SUCCESS",
+  "damageCost": 500,
+  "curse": {
+    "name": "Lag",
+    "threatLevel": "MEDIUM"
+  }
+}

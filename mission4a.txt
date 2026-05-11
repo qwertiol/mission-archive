@@ -1,0 +1,36 @@
+[MISSION]
+missionId=M-2026-TXT1
+date=2026-05-12
+location=Ikebukuro
+outcome=SUCCESS
+damageCost=1600000
+
+[CURSE]
+name=Curse of the Storm Drain
+threatLevel=HIGH
+
+[SORCERER]
+name=Maki Zenin
+rank=GRADE_2
+
+[SORCERER]
+name=Yuji Itadori
+rank=GRADE_1
+
+[TECHNIQUE]
+name=Cursed Tool: Naginata
+type=WEAPON
+owner=Maki Zenin
+damage=600000
+
+[TECHNIQUE]
+name=Black Flash
+type=INNATE
+owner=Yuji Itadori
+damage=750000
+
+[ENVIRONMENT]
+weather=HEAVY_RAIN
+timeOfDay=NIGHT
+visibility=LOW
+cursedEnergyDensity=87

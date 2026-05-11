@@ -1,0 +1,61 @@
+{
+  "missionId": "M-2026-001",
+  "date": "2026-05-12",
+  "location": "Shibuya",
+  "outcome": "PARTIAL_SUCCESS",
+  "damageCost": 50000,
+  "curse": {
+    "name": "Eternal Sleep",
+    "threatLevel": "HIGH"
+  },
+  "sorcerers": [
+    {
+      "name": "Gojo Satoru",
+      "rank": "SPECIAL_GRADE"
+    }
+  ],
+  "techniques": [
+    {
+      "name": "Infinity Void",
+      "type": "INNATE",
+      "owner": "Gojo Satoru",
+      "damage": 9999
+    }
+  ],
+  "economicAssessment": {
+    "totalDamageCost": 50000,
+    "infrastructureDamage": 20000,
+    "commercialDamage": 15000,
+    "transportDamage": 5000,
+    "recoveryEstimateDays": 30,
+    "insuranceCovered": true
+  },
+  "enemyActivity": {
+    "behaviorType": "Ambush",
+    "targetPriority": "Civilians",
+    "mobility": "HIGH",
+    "escalationRisk": "MEDIUM",
+    "attackPatterns": ["Shadow Strike", "Curse Wave"],
+    "countermeasuresUsed": ["Simple Domain"]
+  },
+  "environmentConditions": {
+    "weather": "Rain",
+    "timeOfDay": "Night",
+    "visibility": "LOW",
+    "cursedEnergyDensity": 87
+  },
+  "civilianImpact": {
+    "evacuated": 200,
+    "injured": 15,
+    "missing": 3,
+    "publicExposureRisk": "HIGH"
+  },
+  "timelineEvents": [
+    {
+      "timestamp": "2026-05-10T22:15:00",
+      "type": "Engagement",
+      "description": "Initial curse detection"
+    }
+  ],
+  "comment": "The barrier was weakened by the rain"
+}

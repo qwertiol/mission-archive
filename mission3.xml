@@ -1,0 +1,41 @@
+<Mission>
+  <missionId>M-XML-002</missionId>
+  <date>2026-05-11</date>
+  <location>Akihabara</location>
+  <outcome>FAILURE</outcome>
+  <damageCost>99999</damageCost>
+  <curse>
+    <name>Digital Phantom</name>
+    <threatLevel>SPECIAL_GRADE</threatLevel>
+  </curse>
+  <sorcerers>
+    <sorcerer>
+      <name>Fushiguro Megumi</name>
+      <rank>GRADE_2</rank>
+    </sorcerer>
+  </sorcerers>
+  <techniques>
+    <technique>
+      <name>Ten Shadows</name>
+      <type>SHIKIGAMI</type>
+      <owner>Fushiguro Megumi</owner>
+      <damage>7000</damage>
+    </technique>
+  </techniques>
+  <enemyActivity>
+    <behaviorType>Hacking</behaviorType>
+    <targetPriority>Data Centers</targetPriority>
+    <mobility>HIGH</mobility>
+    <escalationRisk>HIGH</escalationRisk>
+    <attackPatterns>
+      <attackPattern>DDoS</attackPattern>
+      <attackPattern>Phishing</attackPattern>
+    </attackPatterns>
+  </enemyActivity>
+  <civilianImpact>
+    <evacuated>0</evacuated>
+    <injured>0</injured>
+    <missing>0</missing>
+    <publicExposureRisk>LOW</publicExposureRisk>
+  </civilianImpact>
+</Mission>

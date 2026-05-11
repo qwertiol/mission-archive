@@ -1,0 +1,22 @@
+missionId: "M-YAML-001"
+date: "2026-05-11"
+location: "Shinjuku"
+outcome: "SUCCESS"
+damageCost: 25000
+curse:
+  name: "Shadow Thread"
+  threatLevel: "MEDIUM"
+sorcerers:
+  - name: "Nanami Kento"
+    rank: "GRADE_1"
+techniques:
+  - name: "Ratio Technique"
+    type: "INNATE"
+    owner: "Nanami Kento"
+    damage: 8000
+environmentConditions:
+  weather: "Clear"
+  timeOfDay: "Morning"
+  visibility: "HIGH"
+  cursedEnergyDensity: 45
+comment: "Mission completed as planned"
