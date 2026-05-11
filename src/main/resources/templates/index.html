@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Архив миссий Токийского магического колледжа</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            background-color: #1a1a2e;
+            color: #e0e0e0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            padding: 2rem;
+            min-height: 100vh;
+        }
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        h1 {
+            color: #bb86fc;
+            text-align: center;
+            margin-bottom: 2rem;
+            font-size: 2.2rem;
+            text-shadow: 0 0 8px rgba(187, 134, 252, 0.3);
+        }
+        .card {
+            background-color: #16213e;
+            border-radius: 12px;
+            padding: 1.8rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.3);
+        }
+        .card h2 {
+            color: #03dac5;
+            margin-bottom: 1.2rem;
+            font-size: 1.4rem;
+        }
+        .upload-form {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 1rem;
+        }
+        input[type="file"] {
+            background: #0f3460;
+            border: 1px solid #bb86fc;
+            color: #eee;
+            padding: 0.6rem 1rem;
+            border-radius: 6px;
+            cursor: pointer;
+            flex: 1;
+            min-width: 220px;
+        }
+        button, .btn {
+            background-color: #bb86fc;
+            border: none;
+            color: #1a1a2e;
+            font-weight: bold;
+            padding: 0.7rem 1.4rem;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background 0.2s, transform 0.1s;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 0.95rem;
+        }
+        button:hover, .btn:hover {
+            background-color: #9b6fda;
+            transform: translateY(-1px);
+        }
+        .btn-outline {
+            background: transparent;
+            border: 1px solid #03dac5;
+            color: #03dac5;
+            padding: 0.5rem 1.2rem;
+        }
+        .btn-outline:hover {
+            background: #03dac522;
+            color: #03dac5;
+            transform: translateY(-1px);
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1rem;
+        }
+        th {
+            text-align: left;
+            padding: 0.8rem;
+            background: #0f3460;
+            color: #bb86fc;
+            font-weight: 600;
+        }
+        td {
+            padding: 0.8rem;
+            border-bottom: 1px solid #2a2a4a;
+        }
+        tr:hover td {
+            background: #1f2b4b;
+        }
+        .actions {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+        .report-container {
+            background: #0f3460;
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin-top: 1rem;
+            white-space: pre-wrap;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            color: #cfcfe6;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+        .hidden {
+            display: none;
+        }
+        .status-message {
+            margin-top: 0.8rem;
+            color: #03dac5;
+            font-weight: 500;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>📜 Архив миссий Токийского магического колледжа</h1>
+
+    <div class="card">
+        <h2>⬆️ Загрузить новую миссию</h2>
+        <div class="upload-form">
+            <input type="file" id="missionFile" accept=".json,.yaml,.yml,.xml,.txt">
+            <button onclick="uploadMission()">Отправить в архив</button>
+        </div>
+        <div id="uploadStatus" class="status-message"></div>
+    </div>
+
+    <div class="card">
+        <h2>📋 Архив миссий</h2>
+        <table id="missionsTable">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Дата</th>
+                    <th>Локация</th>
+                    <th>Исход</th>
+                    <th>Действия</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr><td colspan="5" style="text-align:center">Загрузка...</td></tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="card hidden" id="reportCard">
+        <h2>📄 <span id="reportTitle">Отчёт</span></h2>
+        <div class="report-container" id="reportContent"></div>
+        <button class="btn-outline" onclick="closeReport()" style="margin-top:1rem">Закрыть отчёт</button>
+    </div>
+</div>
+
+<script>
+    const API_BASE = '/api/missions';
+
+    document.addEventListener('DOMContentLoaded', fetchMissions);
+
+    async function fetchMissions() {
+        try {
+            const response = await fetch(API_BASE);
+            const missions = await response.json();
+            renderMissionsTable(missions);
+        } catch (err) {
+            console.error(err);
+            document.querySelector('#missionsTable tbody').innerHTML =
+                '<tr><td colspan="5" style="color:red; text-align:center">Ошибка загрузки списка</td></tr>';
+        }
+    }
+
+    function renderMissionsTable(missions) {
+        const tbody = document.querySelector('#missionsTable tbody');
+        if (!missions || missions.length === 0) {
+            tbody.innerHTML = '<tr><td colspan="5" style="text-align:center">Архив пуст</td></tr>';
+            return;
+        }
+        let html = '';
+        missions.forEach(m => {
+            html += `<tr>
+                <td>${m.missionId}</td>
+                <td>${m.date || ''}</td>
+                <td>${m.location || ''}</td>
+                <td>${m.outcome || ''}</td>
+                <td class="actions">
+                    <button class="btn-outline" onclick="loadReport(${m.id}, 'summary')">Краткий отчёт</button>
+                    <button class="btn-outline" onclick="loadReport(${m.id}, 'detailed')">Детальный отчёт</button>
+                </td>
+            </tr>`;
+        });
+        tbody.innerHTML = html;
+    }
+
+    async function uploadMission() {
+        const fileInput = document.getElementById('missionFile');
+        const statusDiv = document.getElementById('uploadStatus');
+        if (!fileInput.files.length) {
+            statusDiv.textContent = 'Выберите файл';
+            return;
+        }
+        const formData = new FormData();
+        formData.append('file', fileInput.files[0]);
+
+        statusDiv.textContent = 'Загрузка...';
+        try {
+            const resp = await fetch(API_BASE + '/upload', {
+                method: 'POST',
+                body: formData
+            });
+            if (!resp.ok) {
+                const err = await resp.json();
+                throw new Error(err.error || 'Ошибка загрузки');
+            }
+            const saved = await resp.json();
+            statusDiv.textContent = `Миссия '${saved.missionId}' успешно сохранена`;
+            fileInput.value = '';
+            await fetchMissions();  // обновить таблицу
+        } catch (e) {
+            statusDiv.textContent = 'Ошибка: ' + e.message;
+        }
+    }
+
+    async function loadReport(missionId, type) {
+        const endpoint = type === 'summary'
+            ? `/api/missions/${missionId}/report/summary`
+            : `/api/missions/${missionId}/report/detailed`;
+
+        try {
+            const resp = await fetch(endpoint);
+            if (!resp.ok) throw new Error('Ошибка получения отчёта');
+            const text = await resp.text();
+            showReport(type, text);
+        } catch (e) {
+            alert(e.message);
+        }
+    }
+
+    function showReport(type, text) {
+        const card = document.getElementById('reportCard');
+        const title = document.getElementById('reportTitle');
+        const content = document.getElementById('reportContent');
+
+        card.classList.remove('hidden');
+        title.textContent = type === 'summary' ? 'Краткий отчёт' : 'Детальный отчёт';
+        content.textContent = text;   // текст отображается как есть, с переносами строк
+    }
+
+    function closeReport() {
+        document.getElementById('reportCard').classList.add('hidden');
+    }
+
+    function closeReport() {
+        document.getElementById('reportCard').classList.add('hidden');
+    }
+</script>
+</body>
+</html>

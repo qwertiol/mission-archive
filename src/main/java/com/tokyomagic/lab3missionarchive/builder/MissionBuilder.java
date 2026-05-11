@@ -1,7 +1,7 @@
 package com.tokyomagic.lab3missionarchive.builder;
 
-import com.mycompany.lab2missionanalyzerpatterns.model.*;
-import com.mycompany.lab2missionanalyzerpatterns.model.enums.MissionOutcome;
+import com.tokyomagic.lab3missionarchive.model.*;
+import com.tokyomagic.lab3missionarchive.model.enums.MissionOutcome;
 import java.time.LocalDate;
 import java.util.List;
 

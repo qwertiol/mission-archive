@@ -1,6 +1,6 @@
 package com.tokyomagic.lab3missionarchive.model;
 
-import com.mycompany.lab2missionanalyzerpatterns.model.enums.Visibility;
+import com.tokyomagic.lab3missionarchive.model.enums.Visibility;
 
 public class EnvironmentConditions {
     private String weather;

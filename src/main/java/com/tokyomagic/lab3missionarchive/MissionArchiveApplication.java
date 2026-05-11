@@ -1,16 +1,11 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- */
+package com.tokyomagic.lab3missionarchive;
 
-package com.mycompany.lab3missionarchive;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-/**
- *
- * @author olyakulagina
- */
+@SpringBootApplication
 public class MissionArchiveApplication {
-
     public static void main(String[] args) {
-        System.out.println("Hello World!");
+        SpringApplication.run(MissionArchiveApplication.class, args);
     }
 }

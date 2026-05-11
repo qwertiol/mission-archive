@@ -1,6 +1,6 @@
 package com.tokyomagic.lab3missionarchive.parser;
 
-import com.mycompany.lab2missionanalyzerpatterns.model.Mission;
+import com.tokyomagic.lab3missionarchive.model.Mission;
 import java.io.File;
 import java.io.IOException;
 

@@ -1,7 +1,7 @@
 package com.tokyomagic.lab3missionarchive.model;
 
-import com.mycompany.lab2missionanalyzerpatterns.model.enums.EscalationRisk;
-import com.mycompany.lab2missionanalyzerpatterns.model.enums.Mobility;
+import com.tokyomagic.lab3missionarchive.model.enums.EscalationRisk;
+import com.tokyomagic.lab3missionarchive.model.enums.Mobility;
 import java.util.List;
 
 public class EnemyActivity {

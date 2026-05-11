@@ -1,6 +1,6 @@
 package com.tokyomagic.lab3missionarchive.model;
 
-import com.mycompany.lab2missionanalyzerpatterns.model.enums.SorcererRank;
+import com.tokyomagic.lab3missionarchive.model.enums.SorcererRank;
 
 public class Sorcerer {
     private String name;

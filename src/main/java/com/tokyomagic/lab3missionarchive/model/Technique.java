@@ -1,6 +1,6 @@
 package com.tokyomagic.lab3missionarchive.model;
 
-import com.mycompany.lab2missionanalyzerpatterns.model.enums.TechniqueType;
+import com.tokyomagic.lab3missionarchive.model.enums.TechniqueType;
 
 public class Technique {
     private String name;

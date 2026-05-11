@@ -1,6 +1,6 @@
 package com.tokyomagic.lab3missionarchive.model;
 
-import com.mycompany.lab2missionanalyzerpatterns.model.enums.ThreatLevel;
+import com.tokyomagic.lab3missionarchive.model.enums.ThreatLevel;
 
 public class Curse {
     private String name;

@@ -1,4 +1,4 @@
-package com.tokyomagic.lab3missionarchive.enums;
+package com.tokyomagic.lab3missionarchive.model.enums;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;

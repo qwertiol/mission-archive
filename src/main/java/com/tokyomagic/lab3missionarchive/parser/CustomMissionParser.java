@@ -1,8 +1,8 @@
 package com.tokyomagic.lab3missionarchive.parser;
 
-import com.mycompany.lab2missionanalyzerpatterns.builder.MissionBuilder;
-import com.mycompany.lab2missionanalyzerpatterns.model.*;
-import com.mycompany.lab2missionanalyzerpatterns.model.enums.*;
+import com.tokyomagic.lab3missionarchive.builder.MissionBuilder;
+import com.tokyomagic.lab3missionarchive.model.*;
+import com.tokyomagic.lab3missionarchive.model.enums.*;
 
 import java.io.BufferedReader;
 import java.io.File;
